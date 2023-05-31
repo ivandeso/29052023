@@ -12,6 +12,6 @@ histogram(duracaoBaixo, 'BinWidth', 50, 'FaceColor', 'blue');
 xlabel('Tempo de Volta (ms)');
 ylabel('Frequência');
 saveas(gcf, 'histograma.png')
-velocidade_inst = 3.6*(duracaoAlto ./ (1000*comprimento));
+velocidade_inst = 3600*(comprimento ./ (duracaoAlto));
 tabela = table(duracaoBaixo, diferenca_tempo_volta, velocidade_inst, 'VariableNames', {'Tempo de volta (ms)', 'Diferença do tempo de volta (ms)', 'Velocidade instantânea (Km/h)'});
 writetable(tabela, 'Resultados.xlsx');
