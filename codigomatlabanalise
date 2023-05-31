@@ -1,0 +1,17 @@
+comprimento = %inserir o comprimento do carro%;
+dados = readtable('Amostra1.csv');
+dados.('DuracaoAlto') = replace(dados.('DuracaoAlto'), ',', '.');
+dados.('DuracaoBaixo') = replace(dados.('DuracaoBaixo'), ',', '.');
+duracaoAlto = table2array(dados(:, 'DuracaoAlto'));
+duracaoBaixo = table2array(dados(:, 'DuracaoBaixo'));
+duracaoBaixo = cellfun(@str2double, duracaoBaixo);
+duracaoAlto = cellfun(@str2double, duracaoAlto);
+diferenca_tempo_volta = duracaoBaixo(2:end) - duracaoBaixo(1:end-1);
+diferenca_tempo_volta = [0; diferenca_tempo_volta];
+histogram(duracaoBaixo, 'BinWidth', 50, 'FaceColor', 'blue');
+xlabel('Tempo de Volta (ms)');
+ylabel('Frequência');
+saveas(gcf, 'histograma.png')
+velocidade_inst = 3.6*(duracaoAlto ./ (1000*comprimento));
+tabela = table(duracaoBaixo, diferenca_tempo_volta, velocidade_inst, 'VariableNames', {'Tempo de volta (ms)', 'Diferença do tempo de volta (ms)', 'Velocidade instantânea (Km/h)'});
+writetable(tabela, 'Resultados.xlsx');
